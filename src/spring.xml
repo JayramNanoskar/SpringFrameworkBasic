@@ -3,24 +3,27 @@
    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	
+   
+	<!--Consider, pointB, pointC are used only inside triangle, so we can isolate it inside triangle bean itself. -->
    <bean id="triangle" class="com.jayram.Triangle" >
 		<property name="pointA" ref="zeroPoint"></property>
-		<property name="pointB" ref="point2"></property>
-		<property name="pointC" ref="point3"></property>
+		<property name="pointB">
+			<bean class="com.jayram.Point"> <!-- id attribute is optional because we arn't going to reference it anywhere else. -->
+		   		<property name="x" value="-20"></property>
+		   		<property name="y" value="0"></property>
+   			</bean>
+		</property>
+		<property name="pointC">
+			<bean id="point3" class="com.jayram.Point">
+		   		<property name="x" value="20"></property>
+		   		<property name="y" value="0"></property>
+		   </bean>
+		</property>
    </bean>
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->
    <bean id="zeroPoint" class="com.jayram.Point">
    		<property name="x" value="0"></property>
-   		<property name="y" value="0"></property>
-   </bean>
-   <bean id="point2" class="com.jayram.Point">
-   		<property name="x" value="-20"></property>
-   		<property name="y" value="0"></property>
-   </bean>
-   <bean id="point3" class="com.jayram.Point">
-   		<property name="x" value="20"></property>
    		<property name="y" value="0"></property>
    </bean>
    
