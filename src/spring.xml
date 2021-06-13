@@ -4,26 +4,19 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <bean id="triangle" class="com.jayram.Triangle">
-   		<property name="points">
-   			<list>
-   				<ref bean="zeroPoint"/>
-   				<ref bean="point2"/>
-   				<ref bean="point3"/>
-   			</list>
-   		</property>
+   <bean id="triangle" class="com.jayram.Triangle" autowire="byName"> <!--By default there is no auto wiring. By using Auto wire there is no need to specify explicit wiring by specifying <property>. Spring handles it intelligently. So, With 'byName' auto wire, Class member variable name must match with bean definition id here. -->
    </bean>
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->
-   <bean id="zeroPoint" class="com.jayram.Point">
+   <bean id="pointA" class="com.jayram.Point">
    		<property name="x" value="0"></property>
    		<property name="y" value="0"></property>
    </bean>
-   <bean id="point2" class="com.jayram.Point">
+   <bean id="pointB" class="com.jayram.Point">
 		<property name="x" value="-20"></property>
 		<property name="y" value="0"></property>
    </bean>
-   <bean id="point3" class="com.jayram.Point">
+   <bean id="pointC" class="com.jayram.Point">
 		<property name="x" value="20"></property>
 		<property name="y" value="0"></property>
    </bean>
