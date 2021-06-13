@@ -5,7 +5,7 @@
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
 	<!--Consider, pointB, pointC are used only inside triangle, so we can isolate it inside triangle bean itself. -->
-   <bean id="triangle" class="com.jayram.Triangle" >
+   <bean id="triangle" class="com.jayram.Triangle" name="triangle-name">
 		<property name="pointA" ref="zeroPoint"></property>
 		<property name="pointB">
 			<bean class="com.jayram.Point"> <!-- id attribute is optional because we arn't going to reference it anywhere else. -->
@@ -27,4 +27,5 @@
    		<property name="y" value="0"></property>
    </bean>
    
+   <alias name="triangle" alias="triangle-alias"/>
 </beans>
