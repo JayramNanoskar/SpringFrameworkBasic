@@ -4,6 +4,7 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
-   <bean id="triangle" class="com.jayram.Triangle" />
-   
+   <bean id="triangle" class="com.jayram.Triangle" >
+   		<property name="type" value="Equilateral"></property> <!-- Presetting bean properties -->
+   </bean>
 </beans>
