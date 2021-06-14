@@ -4,7 +4,7 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <bean id="triangle" class="com.jayram.Triangle" autowire="byName"> <!--By default there is no auto wiring. By using Auto wire there is no need to specify explicit wiring by specifying <property>. Spring handles it intelligently. So, With 'byName' auto wire, Class member variable name must match with bean definition id here. -->
+   <bean id="triangle" class="com.jayram.Triangle" scope="singleton" autowire="byName"> <!--By default there is no auto wiring. By using Auto wire there is no need to specify explicit wiring by specifying <property>. Spring handles it intelligently. So, With 'byName' auto wire, Class member variable name must match with bean definition id here. -->
    </bean>
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->
