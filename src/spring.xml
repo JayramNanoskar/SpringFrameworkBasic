@@ -4,26 +4,28 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <bean id="triangle" class="com.jayram.Triangle" autowire="byName" init-method="myInit" destroy-method="cleanUp">
-   </bean>
+   <!-- <bean id="triangle" class="com.jayram.Triangle" autowire="byName" init-method="myInit" destroy-method="cleanUp">
+   </bean> -->
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->
    <bean id="pointA" class="com.jayram.Point">
    		<property name="x" value="${pointA.pointX}"></property>
    		<property name="y" value="${pointA.pointY}"></property>
    </bean>
-   <bean id="pointB" class="com.jayram.Point">
+   <!-- <bean id="pointB" class="com.jayram.Point">
 		<property name="x" value="-20"></property>
 		<property name="y" value="0"></property>
    </bean>
    <bean id="pointC" class="com.jayram.Point">
 		<property name="x" value="20"></property>
 		<property name="y" value="0"></property>
-   </bean>
+   </bean> -->
    
    <bean id="circle" class="com.jayram.Circle">
-   		<property name="center" ref="pointA"></property>
+
    </bean>
+
+   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
 
    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"></bean>
 
