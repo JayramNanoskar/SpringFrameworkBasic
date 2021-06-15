@@ -4,12 +4,7 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <bean id="parentTriangle" class="com.jayram.Triangle" abstract="true"> <!--abstract="true" means spring won't instantiate this bean, it uses this bean as just reference  -->
-   		<property name="pointA" ref="pointA"></property>
-   </bean>
-   <bean id="triangle1" class="com.jayram.Triangle" parent="parentTriangle"> <!-- Inheriting Bean definition -->
-   		<property name="pointB" ref="pointB"></property>
-   		<property name="pointC" ref="pointC"></property>
+   <bean id="triangle" class="com.jayram.Triangle" autowire="byName"> 
    </bean>
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->
