@@ -4,7 +4,7 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <bean id="triangle" class="com.jayram.Triangle" autowire="byName"> 
+   <bean id="triangle" class="com.jayram.Triangle" autowire="byName" init-method="myInit" destroy-method="cleanUp">
    </bean>
    
    <!--Consider, triangle points are (0,0)(-20,0)(20,0) -->

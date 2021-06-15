@@ -61,5 +61,11 @@ public class Triangle implements InitializingBean, DisposableBean{
 		System.out.println("DisposableBean destroy method called for Triangle");
 	}
 
+	public void myInit(){
+		System.out.println("My init method for Triangle");
+	}
 
+	public void cleanUp(){
+		System.out.println("My destroy method for Triangle");
+	}
 }
