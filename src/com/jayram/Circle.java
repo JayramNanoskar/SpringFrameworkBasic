@@ -1,5 +1,7 @@
 package com.jayram;
 
+import org.springframework.beans.factory.annotation.Required;
+
 public class Circle implements Shape{
 	private Point center;
 	
@@ -8,7 +10,7 @@ public class Circle implements Shape{
 		return center;
 	}
 
-
+	@Required //This annotation validates bean at context initialization time only
 	public void setCenter(Point center) {
 		this.center = center;
 	}

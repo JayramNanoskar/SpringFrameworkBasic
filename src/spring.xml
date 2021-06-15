@@ -25,6 +25,9 @@
    		<property name="center" ref="pointA"></property>
    </bean>
 
+   <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"></bean>
+
+
    <bean class="com.jayram.DisplayNameBeanPostProcessor"></bean>
    <bean class="com.jayram.MyFactoryBeanPostProcessor"></bean>
    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
