@@ -21,6 +21,10 @@
 		<property name="y" value="0"></property>
    </bean>
    
+   <bean id="circle" class="com.jayram.Circle">
+   		<property name="center" ref="pointA"></property>
+   </bean>
+
    <bean class="com.jayram.DisplayNameBeanPostProcessor"></bean>
    <bean class="com.jayram.MyFactoryBeanPostProcessor"></bean>
    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
