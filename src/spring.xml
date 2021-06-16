@@ -25,6 +25,14 @@
 		<property name="y" value="0"></property>
    </bean>
    
+   <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> <!-- ResourceBundleMessageSource class is an implementation of MessageSource interface -->
+   		<property name="basenames">
+   			<list>
+   				<value>mymessages</value>
+   			</list>
+   		</property>
+   	</bean>
+   
 
 
 
