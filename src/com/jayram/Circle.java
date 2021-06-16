@@ -1,5 +1,9 @@
 package com.jayram;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
@@ -12,12 +16,20 @@ public class Circle implements Shape{
 		return center;
 	}
 
-	@Autowired //It does the bean wiring
-	@Qualifier("circleRelated")
+	@Resource(name="pointC")
 	public void setCenter(Point center) {
 		this.center = center;
 	}
 
+	@PostConstruct
+	public void initializeCircle(){
+		System.out.println("Init of Circle");
+	}
+
+	@PreDestroy
+	public void destroyCircle(){
+		System.out.println("Destroy of Circle");
+	}
 
 	@Override
 	public void draw() {
