@@ -1,0 +1,280 @@
+----------------------------------------------- Spring Framework ---------------------------------------------------------
+-Spring Framework is Lot of things put into one.
+-Mainly used for dependency injection/dependency inversion by decoupling dependency among objects.
+-Tomcat is Servlet container, tomcat creates servlet objects which are required in order to run an application.
+-We provide classes & configuration for servlets through xml or annotation. Tomcat reads the xml or annotation and identifies servlet which need to be instantiate and then it creates those servlets.
+-Spring is a container of beans, it act as factory of beans. So dependency injection/inversion possible.
+-Spring container instantiates object, manages lifecycle of object, destroys the object.
+
+**Normal dependency Injection:
+-Example..1
+//Circle.java
+	draw(){;;;}
+//Triangle.java
+	draw(){;;;}
+//Application.java
+	public static void main(String... args){
+		Triangle myT = new Triangle();
+		myT.draw();
+		Circle myC = new Circle();
+		myC.draw();
+	}
+-Here Application class is tied to objects Circle & Triangle.
+
+
+-Example..2
+//Shape.java [interface/abstract class]
+	draw();
+//Circle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Triangle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Application.java
+	public static void main(String... args){
+		Shape shape1 = new Triangle();
+		shape1.draw();
+		Shape shape2 = new Circle();
+		shape2.draw();
+	}
+-Here Application class is tied to objects Circle & Triangle in main method(because of hardcoded objects creation) but also using Polymorphism concept.
+
+
+-Example..3
+//Shape.java [interface/abstract class]
+	draw();
+//Circle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Triangle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Application.java
+	public static void myDrawMethod(Shape shape){ [method to accept shape & calling respective draw()]
+		shape.draw();
+	}
+	public static void main(String... args){
+		Shape shape1 = new Triangle();
+		myDrawMethod(shape1);
+		Shape shape2 = new Circle();
+		myDrawMethod(shape2);
+	}
+-Here Application class is still tied to objects Circle & Triangle in main(). It is using Method parameter but still somewhere need to pass hardcoded objects.
+
+
+
+-Example..4
+//Shape.java [interface/abstract class]
+	draw();
+//Circle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Triangle.java [inherites Shape]
+	draw(){;;;} [overriding method]
+//Drawing.java
+protected class Drawing{
+	private Shape shape;
+	public setShape(Shape shape){
+		this.shape = shape;
+	}
+	public drawShape(){
+		this.shape.draw();
+	}
+}
+//Application.java
+	public static void main(String... args){
+		Triangle myT = new Triangle();
+		drawingObj.setShape(myT);
+		drawingObj.drawShape();
+	}
+-Here Drawing class is not tied to any particular objects because using class member variable to remove any dependency on Circle or Triangle class.
+-Here injecting dependency into Drawing class by separately different class, using Application class.
+-So dependency is not hardcoded in class, it is getting injected by outside class called dependency injection.
+-Spring takes care of dependency injection easily, even need not to write dependency injection code, we just need to tell spring & then it injects right dependency to right object.
+
+
+
+**Factory Pattern:
+-Object factory is java object which creates any actual object by using provided configuration. Configuration is a blueprint for objects which are need to be created. Object factory returns created object back to requesting object. So requesting object need not to do 'new ...()' for instantiation, instead it just refers to Object factory for instantiation.
+
+*Spring Bean factory:
+-It is Spring library to achieve Factory pattern functionality.
+-Bean factory object lets us to get new object using provided configuration[spring xml containing bean definition or annotation]. So we just need to refer Bean factory in spring for object instantiation. Hence, object/bean gets create inside spring container, spring knows about it and responsible to manage it's lifecycle.
+
+
+**Spring setup:
+-Setup the Spring environment by downloading all Spring required jars from Spring distributions.
+-Create the library containing all jars inside IDE, so our projects can just include that created library.
+
+
+**Spring Example:
+->Injecting properties into an object- 2 ways - using setter-getter injection with <property> tag and using costructor injection with <constructor-arg> tag.
+-When provided bean configuration matches with that java class structure then we gets required bean instance otherwise gets BeanCreationException during context initialization itself.
+-When configuration xml has any error then we gets XmlBeanDefinitionStoreException with nested exception SAXParseException during context initialization itself.
+
+
+->Injecting objects:
+Pre-populate object values as properties by dependency injection.
+
+
+->Putting inner bean, using alias:
+-Inner bean isolates bean only where it required. There no specific advantage by defining inner bean over defining separate beans.
+-Alias used to give differnet names to same bean.
+-<property> tag attribute 'ref' can point to bean id or bean name or bean alias.
+
+
+->Initializing collections:
+-<property> tags, subtag like <list>, <set>, <map> we can use for storing collection purpose.
+
+
+->Bean autowiring by type or name or constructor:
+-By default there is no autowiring.
+-With autowired by name, bean id inside configuration must match with class member variables name.
+-With autowired by type or by constructor, there must be only one member variable of particular type present inside class & only one bean per type inside configuration also.
+
+
+->Bean scopes:
+-ApplicationContext is actually BeanFactory with some more traditional functionality. ApplicationContext is use, inorder to initialize spring container & we can use xml file to configure ApplicationContext.
+-Creation of beans happens when ApplicationContext is being initialize, not when getBean() is happening. This is default behaviour of bean but this can be configure in different ways.
+Basic bean scopes:
+1.Singleton 
+-Only once per Spring container. By default all beans in Spring is singleton. Initialize all beans at loadtime only. 
+-When application context is created all the beans get initialized and kept ready. So when getBean() happens, the same bean is being sent for every getBean(), doesnot create new initialization.
+-We can override scope and provide other scope.
+2.Prototype 
+-New bean created with every request or reference.
+-When application context is created, the beans not get initialized until getBean() happens.
+-Initialize bean only when getBean() happens.
+3.Web-aware Context bean scopes 
+-Request:New bean per servlet request
+-Session:New bean per session. No matter how many times getBean() happens in code, only same bean is returned.
+-Global Session:New bean per global HTTP session(portlet context)
+
+
+->Point to note:
+-Every application run on new single JVM instance. 
+-We can have multiple Spring container running on same JVM instance. Singleton bean scope(single in Spring container) is different than Singleton Design pattern(overall single instance in JVM).
+
+
+->ApplicationContextAware, BeanNameAware:
+-ApplicationContextAware used to access ApplicationContext inside bean class. 
+-Consider, Singleton Bean has nested Prototype Beans configured, then to initialize prototype beans as per requirement, we can get that ApplicationContext using ApplicationContextAware implementation.
+-Any bean implementing ApplicationContextAware interface, will have access to ApplicationContext within overrided setter method.
+-BeanNameAware used to get bean name set in configuration.
+
+
+->Bean definition inheritance:
+-We can inherit one bean into another by specifying attribute 'parent' of <bean> tag inside configuration.
+-In bean configuration tag <bean>, when we specify attribute abstract="true" then spring don't create bean of that particular id, it just uses it as a template & any bean definitions can use that particular bean as a reference & becomes it's child.
+
+
+->Lifecycle callbacks:
+-Lifecycle callbacks used to initialization & cleanup of spring beans.
+-We can have method in a bean that gets run when bean is being created and when bean is about to destroy.
+-While writing J2SE application we need to register shutdown hook to destroy the created application context but incase of web/J2EE application spring context know when to end. 
+-By using AbstractApplicationContext, we can called shutdown hook when our main() ends.
+-After bean initialization, to execute logic we can implement InitializingBean i.e.spring interface and to execute logic while destroying bean we can implement DisposableBean interface.
+-Init & Destroy -> are 2 ways for Lifecycle callbacks.
+1. By implementing spring interfaces(need to modify our class to bind to Spring by implement required interfaces)
+2. By customize method using spring configuration(need not to bind our class to Spring, but creating methods & registering them in configuration)
+With both 1. & 2. present, execution priority goes to 1. and then execute 2.
+3. By using annotation
+
+
+->BeanPostProcessor:
+-They are classes that tells Spring that there is some processing that spring needs to do after initializing bean.
+-No matter how many types of beans we have, when every bean is initialized then BeanPostProcessor method gets called.
+-It is helpful when we want to override configuration related code.
+
+
+->Writing a BeanFactoryPostProcessor:
+-It is like BeanPostProcessor.
+-When BeanFactory is being initialize then BeanFactoryPostProcessor get called. Even ApplicationContext is also BeanFactory with some extra functionality.
+-Example is usage of PropertPlaceHolderConfigurer class to read the values from properties file & to substitute in configuration file in place of placeholder.
+BeanFactoryPostProcessor get executed before the BeanFactory get executed.
+ 
+
+->Coding to interfaces:
+-It is better to use interfaces for dependency injection. So other related classes can implement that interface with ease.
+
+
+->Introduction to Annotations and the Required annotation:
+-Spring supports XML based and Annotation based container configuration.
+-Above configured spring beans using xml but we can configured using annotations also.
+-Required annotation is RequiredAnnotationBeanPostProcessor. BeanPostProcessor looks for these annotation on all the spring beans.
+-Required annotation validates bean at context initialization time only if bean dependency are not properly injected then gets exception thrown by spring at application initialization time only.
+
+
+->The Autowired Annotation, Qualifier annotation:
+-Autowired Annotation behind the scene AutowiredAnnotationBeanPostProcessor. BeanPostProcessor looks for these annotation on all the spring beans.
+-@Autowired annotation first look for bean type in configuration xml, if multiple beans of same type exists then it look for java bean name with matching bean id in configuration xml if that is also not match then Spring look for if any @Qualifier provided, if that is not present then gets exception while initializing spring.
+-What spring does is, 
+1)it checks for @Autowired and it looks at all the beans but if it find multiple beans of same desired type then 
+2)it checks if any of the bean have same name as required java bean but if it find no such bean then 
+3)it looks for @Qualifier, it looks for any of those java bean which have qualifier that matches the qualifier in bean configuration, 
+4)if it again don't find proper bean then throws exception while initializing spring context
+5)otherwise spring context get initialize with all required beans.
+-To define all annotations related BeanPostProcessor, we can use <context:annotation-config/> in configuration xml.
+-Qualifier is useful when we have multiple implementation of same interface and we are injecting the interface in different service/component and each of those service/component requires different implementation. If we have only one implementation of interface, Qualifier is not required.
+
+
+->Some JSR-250 Annotations:
+-JSR(Java Specification Request) 250 is a java standard defines all the standard annotations that would applied across different technology and different frameworks.
+@Resource - to provide dependency injection by bean name
+@PostConstruct - to execute after bean initialization
+@PreDestroy - to execute just before bean get destroyed
+
+
+->Stereotype Annotations like Component, Service, Repository and Controller
+-Stereotype Annotations helps to add level of documentation at first look only.
+-@Component - to treat class as a spring bean. It is more generic annotation.
+-For example..
+			@Component
+			class Circle {
+			}
+					OR
+			<bean id="circle" class="com.jay.Circle">
+			</bean>
+Above both are equivalent. Defining circle bean inside configuration xml is equivalent to applying @Component annotation.
+Here bean is always start with lower case(i.e. circle here).
+-To scan for a any bean(class with @Component) present at specified path, we need to write 
+<context:component-scan base-package="com.jay" /> in configuration.
+
+-@Service - to treat class as a spring bean but it also gives spring additional information that it is service layer class.
+
+-@Repository - to treat class as a spring bean and as a data object.
+
+-@Controller - to treat class as a spring bean and also lets know spring what bean is doing i.e. as a controller here.
+
+
+->Advantages of using ApplicationContext over BeanFactory:
+-For using messaging and in internalization feature.
+-For Event Handling.
+
+
+->Using MessageSource To Get Text From Property Files:
+-Can be use in messaging and in internalization feature.
+-Using ApplicationContext over the BeanFactory is helpful in messaging and in internalization.
+-Spring provides org.springframework.context.support.ResourceBundleMessageSource class to pick messages from properties file.
+-ResourceBundleMessageSource class is an implementation of MessageSource interface.
+-We can create different properties file according to different Locale text required and read that files using MessageSource.
+
+
+->Event Handling in Spring:
+-Using ApplicationContext over the BeanFactory is helpful in Event Handling.
+-Any Event handling core:
+1.Event publisher
+2.Event listner
+3.Event
+-In spring: 
+-Event publisher class implements ApplicationEventPublisherAware
+-Event listner class implements ApplicationListner. Listner executes upon every event published in spring framework i.e. Container events or Custom events.
+-Event class extends ApplicationEvent
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
